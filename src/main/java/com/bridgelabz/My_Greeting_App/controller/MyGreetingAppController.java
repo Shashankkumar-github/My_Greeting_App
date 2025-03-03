@@ -38,5 +38,14 @@ public class MyGreetingAppController {
         Optional<MyGreetingApp> updatedGreeting = myGreetingAppService.updateGreeting(id, newMessage);
         return updatedGreeting.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteGreeting(@PathVariable Long id) {
+        boolean deleted = myGreetingAppService.deleteGreeting(id);
+        if (deleted) {
+            return ResponseEntity.ok("Greeting deleted successfully.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
 

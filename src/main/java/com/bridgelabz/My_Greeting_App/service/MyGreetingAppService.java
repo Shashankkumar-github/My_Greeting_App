@@ -37,4 +37,11 @@ public class MyGreetingAppService {
         }
         return Optional.empty();
     }
+    public boolean deleteGreeting(Long id) {
+        if (myGreetingAppRepository.existsById(id)) {
+            myGreetingAppRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }
