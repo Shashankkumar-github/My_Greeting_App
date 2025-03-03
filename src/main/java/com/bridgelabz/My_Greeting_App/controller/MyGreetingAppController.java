@@ -2,9 +2,10 @@ package com.bridgelabz.My_Greeting_App.controller;
 
 import com.bridgelabz.My_Greeting_App.model.MyGreetingApp;
 import com.bridgelabz.My_Greeting_App.service.MyGreetingAppService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/greetings")
@@ -16,13 +17,15 @@ public class MyGreetingAppController {
         this.myGreetingAppService = myGreetingAppService;
     }
 
-    @GetMapping("/all")
-    public List<MyGreetingApp> getAllGreetings() {
-        return myGreetingAppService.getAllGreetings();
+    @GetMapping("/{id}")
+    public ResponseEntity<MyGreetingApp> getGreetingById(@PathVariable Long id) {
+        Optional<MyGreetingApp> greeting = myGreetingAppService.findGreetingById(id);
+        return greeting.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     @PostMapping("/save")
-    public MyGreetingApp saveGreeting(@RequestParam String message) {
-        return myGreetingAppService.saveGreeting(message);
+    public ResponseEntity<MyGreetingApp> saveGreeting(@RequestParam String message) {
+        MyGreetingApp savedGreeting = myGreetingAppService.saveGreeting(message);
+        return ResponseEntity.ok(savedGreeting);
     }
 }
+
