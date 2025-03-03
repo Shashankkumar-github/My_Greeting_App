@@ -1,20 +1,25 @@
 package com.bridgelabz.My_Greeting_App.service;
+
+import com.bridgelabz.My_Greeting_App.model.MyGreetingApp;
+import com.bridgelabz.My_Greeting_App.repository.MyGreetingAppRepository;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class MyGreetingAppService {
 
-    public String getGreetingMessage(String firstName, String lastName) {
-        if (firstName != null && lastName != null) {
-            return "Hello, " + firstName + " " + lastName + "!";
-        } else if (firstName != null) {
-            return "Hello, " + firstName + "!";
-        } else if (lastName != null) {
-            return "Hello, " + lastName + "!";
-        } else {
-            return "Hello, World!";
-        }
-    }
+    private final MyGreetingAppRepository myGreetingAppRepository;
+
+    public MyGreetingAppService(MyGreetingAppRepository myGreetingAppRepository) {
+        this.myGreetingAppRepository = myGreetingAppRepository;
     }
 
+    public List<MyGreetingApp> getAllGreetings() {
+        return myGreetingAppRepository.findAll();
+    }
 
+    public MyGreetingApp saveGreeting(String message) {
+        MyGreetingApp greeting = new MyGreetingApp(message);
+        return myGreetingAppRepository.save(greeting);
+    }
+}
