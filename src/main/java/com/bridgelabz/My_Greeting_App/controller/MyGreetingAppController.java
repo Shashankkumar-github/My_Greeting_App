@@ -5,6 +5,7 @@ import com.bridgelabz.My_Greeting_App.service.MyGreetingAppService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -26,6 +27,11 @@ public class MyGreetingAppController {
     public ResponseEntity<MyGreetingApp> saveGreeting(@RequestParam String message) {
         MyGreetingApp savedGreeting = myGreetingAppService.saveGreeting(message);
         return ResponseEntity.ok(savedGreeting);
+    }
+    @GetMapping("/all")
+    public ResponseEntity<List<MyGreetingApp>> getAllGreetings() {
+        List<MyGreetingApp> greetings = myGreetingAppService.getAllGreetings();
+        return ResponseEntity.ok(greetings);
     }
 }
 
