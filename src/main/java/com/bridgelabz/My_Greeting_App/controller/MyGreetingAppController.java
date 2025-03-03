@@ -33,5 +33,10 @@ public class MyGreetingAppController {
         List<MyGreetingApp> greetings = myGreetingAppService.getAllGreetings();
         return ResponseEntity.ok(greetings);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<MyGreetingApp> updateGreeting(@PathVariable Long id, @RequestParam String newMessage) {
+        Optional<MyGreetingApp> updatedGreeting = myGreetingAppService.updateGreeting(id, newMessage);
+        return updatedGreeting.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
 

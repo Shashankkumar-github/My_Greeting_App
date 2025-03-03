@@ -27,4 +27,14 @@ public class MyGreetingAppService {
     public List<MyGreetingApp> getAllGreetings() {
         return myGreetingAppRepository.findAll();
     }
+    public Optional<MyGreetingApp> updateGreeting(Long id, String newMessage) {
+        Optional<MyGreetingApp> greetingOptional = myGreetingAppRepository.findById(id);
+        if (greetingOptional.isPresent()) {
+            MyGreetingApp greeting = greetingOptional.get();
+            greeting.setMessage(newMessage);
+            myGreetingAppRepository.save(greeting);
+            return Optional.of(greeting);
+        }
+        return Optional.empty();
+    }
 }
