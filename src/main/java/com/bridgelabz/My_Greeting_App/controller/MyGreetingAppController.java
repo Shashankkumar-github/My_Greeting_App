@@ -16,14 +16,19 @@ public class MyGreetingAppController {
         this.greetingService = greetingService;
     }
 
-        @GetMapping
-        public Map<String, String> getGreeting() {
-            Map<String, String> response = new HashMap<>();
-            response.put("message", greetingService.getGreetingMessage());
-            return response;
-        }
+    @GetMapping
+    public Map<String, String> getGreeting(
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName) {
 
+        String message = greetingService.getGreetingMessage(firstName, lastName);
 
+        Map<String, String> response = new HashMap<>();
+        response.put("message", message);
+        return response;
     }
+
+
+}
 
 
