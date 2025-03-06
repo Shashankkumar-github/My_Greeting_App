@@ -46,6 +46,8 @@ public class SecurityConfig {
                         .requestMatchers("http://localhost:8080/swagger-ui/index.html").permitAll()
                         .requestMatchers("http://localhost:8080/v3/api-docs").permitAll()
                         .requestMatchers("/greetings/get/**").authenticated()
+                        .requestMatchers("/greetings/forgotPassword/**").permitAll()
+                        .requestMatchers("/greetings/resetPassword/**").permitAll()
 
                         .anyRequest().authenticated()
                 )

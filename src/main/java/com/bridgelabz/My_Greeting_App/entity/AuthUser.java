@@ -20,6 +20,7 @@ public class AuthUser {
         @Column(unique = true, nullable = false)
         private String email;
 
+        @Column(nullable = false)
         private String password;
 
         public void setPassword(String password) {

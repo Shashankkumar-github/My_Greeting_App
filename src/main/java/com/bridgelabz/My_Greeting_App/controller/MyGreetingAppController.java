@@ -3,6 +3,7 @@ package com.bridgelabz.My_Greeting_App.controller;
 import com.bridgelabz.My_Greeting_App.dto.AuthUserDTO;
 import com.bridgelabz.My_Greeting_App.dto.LoginDTO;
 import com.bridgelabz.My_Greeting_App.model.MyGreetingApp;
+import com.bridgelabz.My_Greeting_App.service.EmailService;
 import com.bridgelabz.My_Greeting_App.service.MyGreetingAppService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,12 +11,14 @@ import jakarta.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/greetings")
 @RequiredArgsConstructor
 public class MyGreetingAppController {
+    private final EmailService emailService;
 
     private final MyGreetingAppService myGreetingAppService;
     @PostMapping("/register")
@@ -59,6 +62,24 @@ public class MyGreetingAppController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+    @PutMapping("/forgotPassword/{email}")
+    public ResponseEntity<Map<String, String>> forgotPassword(
+            @PathVariable String email,
+            @RequestBody Map<String, String> request) {
+
+        String newPassword = request.get("password");
+        String message = emailService.forgotPassword(email, newPassword);
+        return ResponseEntity.ok(Map.of("message", message));
+    }
+    @PutMapping("/resetPassword/{email}")
+    public ResponseEntity<Map<String, String>> resetPassword(
+            @PathVariable String email,
+            @RequestParam String currentPassword,
+            @RequestParam String newPassword) {
+
+        String message = emailService.resetPassword(email, currentPassword, newPassword);
+        return ResponseEntity.ok(Map.of("message", message));
     }
 }
 
